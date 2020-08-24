@@ -1,0 +1,27 @@
+{% extends 'store/base_template.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/todo.css' %}">
+{% endblock css %}
+
+{% block title%} Home {% endblock title %}
+{% block content %}
+    <h2>To Do List</h2>
+
+    <div id="myDIV" class="header">
+	  <h2>My To Do List</h2>
+	  <input type="text" id="myInput" placeholder="Title...">
+	  <span onclick="addToList()" class="addBtn">Add</span>
+	</div>
+
+	<ul id="myUL" style="margin-top: 30px">
+	  {% for item in userslist %}
+	  	<li data-item_id = {{ item.id}}>{{ item.listitem }}</li>
+	  {% endfor %}
+	</ul>
+        
+{% endblock content %}
+
+{% block js %}
+	<script src="{% static 'js/todo.js' %}"></script>
+{% endblock js %}

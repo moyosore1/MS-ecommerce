@@ -1,0 +1,26 @@
+{% extends 'store/base_template.html' %}
+{% load static %}
+
+{% block title%} {{ category.name }} {% endblock title %}
+{% block content %}
+    <h2>Home</h2>
+
+        <div class="row">
+          {% for product in products %}
+          <div class="col-sm-4 card" style="margin-bottom:50px">
+            <img src="{{ product.imageURL}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{ product.product_name}}</h5>
+              <p class="card-text">{{ product.product_description}}</p>
+              <p class="text-muted">${{ product.product_price|floatformat:2}}</p>
+              <a class="btn btn-outline-primary update-cart" data-product_id={{product.id}} data-action="add" >Add to cart</a>
+            </div>
+          </div>
+          {% endfor %}
+    </div>
+
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/cart.js' %}"></script>
+{% endblock js %}

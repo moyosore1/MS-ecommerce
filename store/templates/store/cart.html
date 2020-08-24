@@ -1,0 +1,40 @@
+{% extends 'store/base_template.html' %}
+{% load static %}
+{% block title%} Cart{% endblock title %}
+{% block content %}
+    <h2>Cart</h2>
+
+
+  <table class="table">
+      <a class="btn btn-outline-primary" style="margin-bottom:20px" href="{% url 'Store-checkout'%}">Checkout</a>
+      <thead>
+        <tr>
+          <th scope="col">s/n</th>
+          <th scope="col">Product</th>
+          <th scope="col">Price</th>
+          <th scope="col" >Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <th scope="row">{{ forloop.counter}}</th>
+          <td>{{ item.product.product_name }}</td>
+          <td>${{ item.get_total|floatformat:2 }}</td>
+            <td><button class="btn btn-primary update-cart" data-action="add" data-product_id="{{item.product.id}}">+</button><span style="padding:10px">{{ item.quantity}}</span><button class="btn btn-danger update-cart" data-action="remove" data-product_id="{{item.product.id}}">-</button></td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+  </table>
+
+    <h5>Total : {{ order.get_cart_total }}</h5>
+    <a class="btn btn-outline-info" href="{% url 'Store-home' %}">Continue shopping</a>
+
+
+{% endblock content %}
+
+
+{% block js %}
+<script src="{% static 'js/cart.js' %}"></script>
+{% endblock js %}

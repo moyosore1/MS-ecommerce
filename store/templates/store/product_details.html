@@ -1,0 +1,36 @@
+{% extends 'store/base_template.html' %}
+{% load static %}
+
+{% block title%} {{product.product_name.title}} {% endblock title %}
+{% block content %}
+    
+
+  <div class="card mb-3" style="max-width: 1000px;">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src="{{ product.imageURL}}" class="card-img" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ product.product_name }}</h5>
+        <p class="card-text">{{ product.product_description}}</p>
+        <h5 class="text-muted">&#8358;{{product.product_price|floatformat:2}}</h5>
+        {% if in_wishlist == True %}
+          <a class="btn btn-outline-danger" href="{% url 'remove_from_wishlist' product.id %}" >Remove from wishlist</a>
+        
+        {% else %}
+          <a class='btn btn-outline-info' href="{% url 'add_to_wishlist' product.id %}">Add to wishlist</a>  
+        {% endif %}
+          <a class="btn btn-outline-primary update-cart" data-product_id={{product.id}} data-action="add" >Add to cart</a>
+      </div>
+    </div>
+  </div>
+</div>
+          
+    </div>
+
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/cart.js' %}"></script>
+{% endblock js %}

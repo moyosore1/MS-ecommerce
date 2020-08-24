@@ -1,0 +1,62 @@
+{% extends 'store/base_template.html' %}
+{% load static %}
+
+{% block title%} {{request.user.username.title}}'s Wishlist {% endblock title %}
+{% block content %}
+    <h2>Wishlist</h2>
+
+        <div class="row">
+          {% for product in wishlist_products %}
+          <div class="col-sm-4 card" style="margin-bottom:50px">
+            <img src="{{ product.imageURL}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{ product.product_name}}</h5>
+              <p class="card-text">{{ product.product_description}}</p>
+              <p class="text-muted">${{ product.product_price|floatformat:2}}</p>
+              <a class="btn btn-outline-primary" id="update-cart" data-product_id={{product.id}} data-action="add" href="{% url 'move_to_cart' product.id %}">Buy now</a>
+              <a class="btn btn-outline-danger" href="{% url 'remove_from_wishlist' product.id %}" >Remove from wishlist</a>
+            </div>
+          </div>
+          {% endfor %}
+    </div>
+
+{% endblock content %}
+
+{% block js %}
+<script type="text/javascript">
+  let updateCartBtn = document.getElementById('update-cart')
+  updateCartBtn.addEventListener('click', function(){
+        productId = this.dataset.product_id
+        action = this.dataset.action
+        if(user != 'AnonymousUser'){
+            updateUserCart(productId, action)
+        }else{
+          window.location.href = "{% url 'Store-home' %}"
+        }
+
+  });
+
+  function updateUserCart(productId, action){
+    url = '/update-cart/'
+
+    fetch(url, {
+        'method': 'POST',
+        'headers':{
+            'Content-Type':'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({'productId' : productId,'action' : action})
+     })
+     .then((response)=>{
+       return response.json()
+     })
+
+     .then((data)=>{
+        
+     })
+
+}
+
+</script>
+
+{% endblock js %}
