@@ -1,0 +1,1 @@
+web: gunicorn MSEcommerce.wsgi --log-file -

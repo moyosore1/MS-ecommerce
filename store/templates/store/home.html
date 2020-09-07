@@ -8,7 +8,7 @@
         <div class="row">
           {% for product in products %}
           <div class="col-sm-4 card" style="margin-bottom:50px">
-            <img src="{{ product.imageURL}}" class="card-img-top" alt="...">
+            <img src="{% static 'images/default-image.png' %}" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title" ><a href="{% url 'Product_details' product.id %}">{{ product.product_name}}</a></h5>
               <p class="card-text">{{ product.product_description}}</p>
