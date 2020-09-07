@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail
+from .filters import ProductFilter
 
 
 # Create your views here.
@@ -19,6 +20,8 @@ def shop(request):
     data = cartData(request)
     categories = Category.objects.all()
     products = Product.objects.all()
+    
+    
     context = {
         'products': products,
         'categories': categories,
@@ -206,3 +209,16 @@ def move_to_cart(request, pk):
         return redirect('Store-cart')
     else: 
         return redirect('Store-home')     
+
+
+def search_products(request):
+    data = cartData(request)
+    categories = Category.objects.all()
+    search = ProductFilter(request.GET, queryset=Product.objects.all())
+    context = {
+        'categories': categories,
+        'cart_items': data['cartItems'],
+        'search':search
+    }
+    return render(request, 'store/results.html', context)
+
